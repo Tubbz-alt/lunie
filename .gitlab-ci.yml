@@ -10,8 +10,9 @@ before_script:
 pages:
   script:
     - yarn build:ui
+    - mv dist public
   artifacts:
     paths:
-      - dist
+      - public
   only:
     - develop
