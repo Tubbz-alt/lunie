@@ -5,7 +5,7 @@ cache:
     - node_modules
 
 before_script:
-  - yarn
+  - RPC=http://xrn-us-east-1.regen.network:26657 STARGATE=http://xrn-us-east-1.regen.network:1317 yarn
 
 pages:
   script:
