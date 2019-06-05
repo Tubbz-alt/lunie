@@ -9,7 +9,7 @@ before_script:
 
 pages:
   script:
-    - RPC=http://xrn-us-east-1.regen.network:26657 STARGATE=http://xrn-us-east-1.regen.network:1317 yarn build:ui
+    - RPC=https://xrn-us-east-1.regen.network:444 STARGATE=https://xrn-us-east-1.regen.network yarn build:ui
     - mv dist public
   artifacts:
     paths:

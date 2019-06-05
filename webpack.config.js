@@ -211,9 +211,9 @@ if (process.env.NODE_ENV === `production`) {
         "style-src": [`'self'`, `'unsafe-inline'`],
         "connect-src": [
             'self',
-          `http://xrn-us-east-1.regen.network:26657`,
-          `http://xrn-us-east-1.regen.network:1317`,
-          `ws://xrn-us-east-1.regen.network:26657`
+          `https://xrn-us-east-1.regen.network`,
+          `https://xrn-us-east-1.regen.network:444`,
+          `wss://xrn-us-east-1.regen.network:444`
         ],
         "frame-src": [`'self'`, ],
         "img-src": [
