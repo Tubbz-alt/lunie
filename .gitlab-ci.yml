@@ -5,11 +5,11 @@ cache:
     - node_modules
 
 before_script:
-  - RPC=http://xrn-us-east-1.regen.network:26657 STARGATE=http://xrn-us-east-1.regen.network:1317 yarn
+  - yarn
 
 pages:
   script:
-    - yarn build:ui
+    - RPC=http://xrn-us-east-1.regen.network:26657 STARGATE=http://xrn-us-east-1.regen.network:1317 yarn build:ui
     - mv dist public
   artifacts:
     paths:

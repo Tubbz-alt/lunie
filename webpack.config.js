@@ -205,29 +205,19 @@ if (process.env.NODE_ENV === `production`) {
         "object-src": `'none'`,
         "base-uri": `'self'`,
         "default-src": `'self'`,
-        "script-src": [`'self'`, `https://app.appzi.io/`, `https://*.lunie.io`],
+        "script-src": [`'self'`],
         "worker-src": `'none'`,
         // 'style-src': production ? `'self'` : `*`, // SECURITY Appzi is applying styles inline, inquired to them already
         "style-src": [`'self'`, `'unsafe-inline'`],
         "connect-src": [
-          // third party tools
-          `https://sentry.io`,
-          `https://appzi-collector-b.azurewebsites.net`,
-          `https://keybase.io`,
-          // mainnet
-          `https://stargate.lunie.io`,
-          `wss://rpc.lunie.io:26657`,
-          `https://stargate.cosmos.network`,
-          `wss://rpc.cosmos.network:26657`,
-          // testnet
-          `https://sntajlxzsg.execute-api.eu-central-1.amazonaws.com/`,
-          `wss://test.voyager.ninja:26657`
+            'self',
+          `http://xrn-us-east-1.regen.network:26657`,
+          `http://xrn-us-east-1.regen.network:1317`,
+          `ws://xrn-us-east-1.regen.network:26657`
         ],
-        "frame-src": [`'self'`, `https://app.appzi.io/`],
+        "frame-src": [`'self'`, ],
         "img-src": [
-          `'self'`,
-          `https://www.google-analytics.com/`,
-          `https://s3.amazonaws.com/keybase_processed_uploads/`
+          `'self'`
         ]
       })
     )
