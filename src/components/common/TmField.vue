@@ -187,6 +187,10 @@ export default {
 </script>
 
 <style>
+input[type="checkbox"] {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
 .tm-field {
   background: var(--input-bg, #fff);
   border: 1px solid var(--input-bc, #ccc);
@@ -336,7 +340,7 @@ textarea.tm-field {
 
 .tm-select select {
   appearance: none;
-  background: var(--input-bg, #fff);
+  background: var(--input-bg);
   border-radius: 0;
   color: var(--txt, #333);
   padding-right: 2rem;
@@ -348,14 +352,9 @@ textarea.tm-field {
 }
 
 .tm-select select option {
-  background: var(--input-bg, #fff);
-  color: txt;
+  background: var(--app-bg);
+  color: var(--txt);
   font-family: var(--sans);
-}
-
-.tm-select select option:checked {
-  background: var(--hover-bg, #ccf);
-  color: var(--bright, #000);
 }
 
 .tm-select .tm-field-select-addon {

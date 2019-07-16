@@ -32,7 +32,7 @@ To run a local tesnet for Lunie you will need [Docker](https://www.docker.com/) 
 
 > **IMPORTANT:** Only use Ledger devices that you **bought factory new** or **trust fully**.
 
-Lunie supports sending transactions through the `Cøsmos` app for [Ledger Nano S](https://www.ledger.com/products/ledger-nano-s) hardware wallet. To install the `Cøsmos` app on your device you'll have to:
+Lunie supports sending transactions through the `Cosmos` app for [Ledger Nano](https://www.ledger.com/products/ledger-nano-s) hardware wallet. To install the `Cøsmos` app on your device you'll have to:
 
 1. Download the Ledger Live app [here](https://www.ledger.com/pages/ledger-live)
 2. Connect your Ledger via USB and update to the latest firmware
@@ -130,16 +130,17 @@ If you want to run them locally first start a testnet:
 MAX_NODES=4 yarn testnet:start
 ```
 
-Then serve Lunie in it's production format:
-
-```bash
-yarn test:e2e:live-serve
-```
-
-Then run the actual tests:
+Then run the tests:
 
 ```bash
 yarn test:e2e
+```
+
+To run only some tests, provide a filter:
+
+```bash
+yarn test:e2e:serve
+yarn test:e2e:run --filter send.spec.js
 ```
 
 Finally stop the testnet when you are done:

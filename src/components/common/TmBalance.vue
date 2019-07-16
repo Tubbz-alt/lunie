@@ -6,25 +6,27 @@
         <h2 class="total-atoms__value">
           {{ totalAtomsDisplay }}
         </h2>
-        <ShortBech32 :address="session.address || ''" />
+        <Bech32 :address="session.address || ''" />
       </div>
-      <div class="unbonded-atoms top-section">
-        <h3>Available {{ num.viewDenom(bondDenom) }}</h3>
-        <h2>{{ unbondedAtoms }}</h2>
-      </div>
-      <div v-if="rewards" class="top-section">
-        <h3>Rewards</h3>
-        <h2>{{ rewards }}</h2>
-        <TmBtn
-          v-show="totalRewards > 0"
-          id="withdraw-btn"
-          class="withdraw-rewards"
-          :value="connected ? 'Withdraw' : 'Connecting...'"
-          :to="''"
-          type="link"
-          size="sm"
-          @click.native="onWithdrawal"
-        />
+      <div class="second-row">
+        <div class="unbonded-atoms top-section">
+          <h3>Liquid {{ num.viewDenom(bondDenom) }}</h3>
+          <h2>{{ unbondedAtoms }}</h2>
+        </div>
+        <div v-if="rewards" class="top-section">
+          <h3>Available Rewards</h3>
+          <h2>{{ rewards }}</h2>
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            :value="'Withdraw'"
+            :to="''"
+            type="anchor"
+            size="sm"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+        </div>
       </div>
     </div>
     <slot />
@@ -37,14 +39,14 @@
 </template>
 <script>
 import num from "scripts/num"
-import ShortBech32 from "common/ShortBech32"
+import Bech32 from "common/Bech32"
 import TmBtn from "common/TmBtn"
-import ModalWithdrawRewards from "staking/ModalWithdrawRewards"
+import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapGetters } from "vuex"
 export default {
   name: `tm-balance`,
   components: {
-    ShortBech32,
+    Bech32,
     TmBtn,
     ModalWithdrawRewards
   },
@@ -64,7 +66,9 @@ export default {
       `lastHeader`,
       `totalAtoms`,
       `bondDenom`,
-      `distribution`
+      `distribution`,
+      `validatorsWithRewards`,
+      `totalRewards`
     ]),
     loaded() {
       return this.wallet.loaded && this.delegation.loaded
@@ -79,8 +83,10 @@ export default {
         ? this.num.shortDecimals(this.num.atoms(this.liquidAtoms))
         : `--`
     },
-    totalRewards() {
-      return this.distribution.totalRewards[this.bondDenom]
+    // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
+    // the validator rewards are needed to filter the top 5 validators to withdraw from
+    readyToWithdraw() {
+      return this.totalRewards > 0
     },
     rewards() {
       if (!this.distribution.loaded) {
@@ -111,7 +117,7 @@ export default {
   methods: {
     update(height) {
       this.lastUpdate = height
-      this.$store.dispatch(`getTotalRewards`)
+      this.$store.dispatch(`getRewardsFromMyValidators`)
       this.$store.dispatch(`queryWalletBalances`)
     },
     onWithdrawal() {
@@ -126,10 +132,6 @@ export default {
   padding: 1rem 0 2.5rem 1rem;
 }
 
-.short-bech32 {
-  position: absolute;
-}
-
 .total-atoms.top-section {
   padding-left: 0;
 }
@@ -140,20 +142,15 @@ export default {
 }
 
 .top-section {
-  border-right: var(--bc-dim) 2px solid;
   position: relative;
   padding: 0 2rem;
 }
 
-.top-section:last-of-type {
-  border-right: none;
-}
-
 .header-balance .top h3 {
-  color: var(--dim);
   font-size: 14px;
   margin: 0;
   font-weight: 400;
+  white-space: nowrap;
 }
 
 .header-balance .top h2 {
@@ -165,26 +162,32 @@ export default {
 
 .withdraw-rewards {
   font-size: var(--sm);
-  position: absolute;
   font-weight: 500;
 }
 
-@media screen and (max-width: 767px) {
+.second-row {
+  flex-direction: row;
+  display: flex;
+}
+
+/* TODO fix scaling on medium sized screens and pick proper break point */
+@media screen and (max-width: 550px) {
   .header-balance {
-    padding: 0 0 1.5rem 0;
+    padding: 0;
   }
 
   .top-section {
     padding: 0.5rem 0 1rem;
-    border-right: none;
   }
 
-  .top-section:not(:first-child) {
-    margin-left: 2rem;
+  .header-balance .top {
+    flex-direction: column;
+    width: 100%;
   }
 
-  .top-section:nth-child(2) {
-    display: none;
+  .second-row {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 </style>
