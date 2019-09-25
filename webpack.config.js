@@ -213,7 +213,10 @@ if (process.env.NODE_ENV === `production`) {
             'self',
           `https://xrn-us-east-1.regen.network`,
           `https://xrn-us-east-1.regen.network:444`,
-          `wss://xrn-us-east-1.regen.network:444`
+          `wss://xrn-us-east-1.regen.network:444`,
+          `https://regen.chorus.one:26657`,
+          `wss://regen.chorus.one:26657`,
+          `https://regen-lcd.chorus.one:1317`
         ],
         "frame-src": [`'self'`, ],
         "img-src": [
